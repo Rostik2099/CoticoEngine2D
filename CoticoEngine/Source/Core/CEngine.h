@@ -3,7 +3,10 @@
 
 #include "SFML/Graphics.hpp"
 
+
 class AppWindow;
+class World;
+class Renderer;
 
 class CEngine
 {
@@ -18,13 +21,23 @@ public:
 	void UpdateEvents();
 	void Update();
 
+	AppWindow* GetCurrentWindow() { return this->CurrentWindow; };
 	void CreateAppWindow(int width, int height, std::string title);
 	bool IsEngineRunning();
 
 private:
-	CEngine() {};
+	CEngine() 
+	{
+		Init(); 
+	};
 
+	void Init();
 private:
 	AppWindow* CurrentWindow;
+	World* CurrentWorld;
+	Renderer* RenderManager;
+
+	float previousTime;
+	float newTime;
 };
 
