@@ -17,12 +17,10 @@ project "Game"
 		"%{wks.location}/CoticoEngine/Source",
 		"%{wks.location}/CoticoEngine/ThirdParty/include",
 		"%{wks.location}/Game/Source",
-		"ThirdParty/include/",
 	}
 
 	libdirs
 	{
-		"ThirdParty/lib",
 	}
 
 	defines
