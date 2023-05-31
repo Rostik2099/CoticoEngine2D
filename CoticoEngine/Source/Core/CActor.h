@@ -16,6 +16,7 @@ public:
 	virtual void BeginPlay() {};
 	virtual void Tick(float DeltaTime);
 
+	std::string GetUUID() { return this->uuid; };
 	void SetUUID(std::string id) { this->uuid = id; };
 	void Destroy();
 	

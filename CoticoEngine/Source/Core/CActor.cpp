@@ -6,9 +6,7 @@
 
 CActor::CActor() {}
 
-CActor::~CActor()
-{
-}
+CActor::~CActor() {}
 
 void CActor::Tick(float DeltaTime)
 {
@@ -20,6 +18,7 @@ void CActor::Tick(float DeltaTime)
 
 void CActor::Destroy()
 {
+    World::Get()->AddActorForDeletion(this);
 }
 
 void CActor::InitComponent(std::shared_ptr<BaseComponent> Component, std::string ID)

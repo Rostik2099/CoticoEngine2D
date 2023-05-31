@@ -29,12 +29,16 @@ public:
 
 	void Tick(float DeltaTime);
 
+	void AddActorForDeletion(CActor* ActorToDelte);
+
 private:
 	void InitSpawnedActor(CActor* Actor, std::string ID);
+	void DeleteActors();
 
 private:
 	World() {};
 
 	std::unordered_map<std::string, std::shared_ptr<CActor>> Actors;
+	std::vector<CActor*> ActorsToDelete;
 };
 

@@ -20,8 +20,10 @@ public:
 
 private:
 	Renderer() {};
+	void RemoveSprites();
 	
 private:
 	std::unordered_map<std::string, Ref<SpriteComponent>> SpriteComps;
+	std::vector<std::string> SpritesToRemove;
 };
 

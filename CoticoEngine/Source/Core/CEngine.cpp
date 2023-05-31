@@ -13,6 +13,7 @@ void CEngine::Init()
 	Ref<SpriteComponent> Comp = Act->SpawnComponent<SpriteComponent>();
 	Comp->SetTexture("Content/Sprites/julia.jpg");
 	Comp->SetScale(CVector(0.25f, 0.25f));
+	Act->Destroy();
 }
 
 void CEngine::Render()
