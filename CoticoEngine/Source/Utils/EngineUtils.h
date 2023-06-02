@@ -1,9 +1,11 @@
 #pragma once
 #include<string>
-
+#include<memory>
 #include"UUID/uuid.h"
 
-class UUIDGenerator
+class CActor;
+
+class EngineUtils
 {
 public:
 	static std::string Generate() 
@@ -12,4 +14,6 @@ public:
 		UUIDv4::UUID uuid = uuidGenerator.getUUID();
 		return uuid.str();
 	};
+
+	static std::shared_ptr<CActor> GetActorByID(std::string id);
 };

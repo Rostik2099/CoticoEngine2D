@@ -4,7 +4,7 @@
 #include <memory>
 #include "Types/SoftRef.h"
 
-#include"Utils/UUIDGenerator.h"
+#include"Utils/EngineUtils.h"
 
 class CActor;
 
@@ -21,7 +21,7 @@ public:
 	Ref<Type> SpawnActor()
 	{
 		std::shared_ptr<Type> NewActor = std::make_shared<Type>();
-		std::string ActorID = UUIDGenerator::Generate();
+		std::string ActorID = EngineUtils::Generate();
 		Actors[ActorID] = NewActor;
 		InitSpawnedActor(NewActor.get(), ActorID);
 		return Ref<Type>(NewActor);
@@ -30,6 +30,7 @@ public:
 	void Tick(float DeltaTime);
 
 	void AddActorForDeletion(CActor* ActorToDelte);
+	std::shared_ptr<CActor> FindActorWithID(std::string id) { return Actors[id]; };
 
 private:
 	void InitSpawnedActor(CActor* Actor, std::string ID);

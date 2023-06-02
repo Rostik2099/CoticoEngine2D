@@ -1,6 +1,7 @@
 #pragma once
 
 #include<memory>
+#include"Utils/EngineUtils.h"
 
 template<typename T>
 class Ref
@@ -10,7 +11,8 @@ public:
 	
 	Ref(T* Ref) 
 	{
-
+		std::shared_ptr<T> pointer = std::dynamic_pointer_cast<T>(EngineUtils::GetActorByID(Ref->GetUUID()));
+		this->ptr = pointer;
 	};
 
 	Ref(std::shared_ptr<T> ref) 

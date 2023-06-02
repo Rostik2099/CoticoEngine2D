@@ -12,7 +12,7 @@ public:
 
 	void SetTexture(std::string path);
 	void SetScale(CVector NewScale);
-	sf::Sprite GetSprite() { return this->Sprite; };
+	sf::Sprite& GetSprite() { return this->Sprite; };
 
 protected:
 	sf::Sprite Sprite;

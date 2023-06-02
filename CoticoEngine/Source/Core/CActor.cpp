@@ -14,6 +14,8 @@ void CActor::Tick(float DeltaTime)
     {
         comp->Tick(DeltaTime);
     }
+
+    this->dt = DeltaTime;
 }
 
 void CActor::Destroy()

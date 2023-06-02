@@ -7,6 +7,7 @@
 class AppWindow;
 class World;
 class Renderer;
+class InputManager;
 
 class CEngine
 {
@@ -36,6 +37,7 @@ private:
 	AppWindow* CurrentWindow;
 	World* CurrentWorld;
 	Renderer* RenderManager;
+	InputManager* Input;
 
 	float previousTime;
 	float newTime;

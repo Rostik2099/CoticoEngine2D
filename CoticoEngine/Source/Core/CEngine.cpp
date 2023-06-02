@@ -2,18 +2,15 @@
 #include "CActor.h"
 #include "World.h"
 #include "Render/Renderer.h"
+#include "Input/InputManager.h"
 #include "Components/SpriteComponent.h"
 #include "AppWindow/AppWindow.h"
 
 void CEngine::Init()
 {
 	RenderManager = Renderer::Get();
+	Input = InputManager::Get();
 	CurrentWorld = World::Get();
-	Ref<CActor> Act = CurrentWorld->SpawnActor<CActor>();
-	Ref<SpriteComponent> Comp = Act->SpawnComponent<SpriteComponent>();
-	Comp->SetTexture("Content/Sprites/julia.jpg");
-	Comp->SetScale(CVector(0.25f, 0.25f));
-	Act->Destroy();
 }
 
 void CEngine::Render()
@@ -26,22 +23,25 @@ void CEngine::UpdateEvents()
 	sf::Event event;
 	while (CurrentWindow->GetSFWindow()->pollEvent(event))
 	{
+
 		if (event.type == sf::Event::Closed)
 		{
 			CurrentWindow->CloseWindow();
 		}
 	}
+
+	Input->UpdateInputs();
 }
 
 void CEngine::Update()
 {
 	sf::Clock deltaClock;
 	previousTime = newTime;
-	newTime = deltaClock.restart().asMilliseconds();
+	//newTime = deltaClock.restart().asSeconds();
 
 	float dt = (newTime - previousTime);
 
-	CurrentWorld->Tick(dt);
+	CurrentWorld->Tick(deltaClock.restart().asSeconds());
 }
 
 void CEngine::CreateAppWindow(int width, int height, std::string title)
