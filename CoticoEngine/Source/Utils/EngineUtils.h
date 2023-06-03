@@ -4,6 +4,7 @@
 #include"UUID/uuid.h"
 
 class CActor;
+class BaseComponent;
 
 class EngineUtils
 {
@@ -16,4 +17,5 @@ public:
 	};
 
 	static std::shared_ptr<CActor> GetActorByID(std::string id);
+	static std::shared_ptr<BaseComponent> GetComponentByID(BaseComponent* comp);
 };

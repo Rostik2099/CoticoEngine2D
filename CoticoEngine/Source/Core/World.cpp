@@ -20,6 +20,7 @@ void World::AddActorForDeletion(CActor* ActorToDelte)
 void World::InitSpawnedActor(CActor* Actor, std::string ID)
 {
 	Actor->SetUUID(ID);
+	Actor->SetCompsOwner();
 	Actor->SetupInputs(InputManager::Get());
 	Actor->BeginPlay();
 }

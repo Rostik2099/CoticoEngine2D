@@ -3,8 +3,10 @@
 #include<memory>
 #include<unordered_map>
 #include"Types/SoftRef.h"
+#include"Types/CVector.h"
 #include"Utils/EngineUtils.h"
 #include"Input/InputManager.h"
+#include"Events/VectorEvent.h"
 
 class World;
 class BaseComponent;
@@ -22,6 +24,10 @@ public:
 	std::string GetUUID() { return this->uuid; };
 	void SetUUID(std::string id) { this->uuid = id; };
 	void Destroy();
+	CVector GetActorLocation() { return this->Location; };
+	void SetActorLocation(CVector NewLoc);
+	std::shared_ptr<BaseComponent> GetComponentWithID(std::string id);
+	void SetCompsOwner();
 	
 	template<typename T>
 	Ref<T> SpawnComponent() 
@@ -45,5 +51,9 @@ private:
 	std::string uuid;
 	std::unordered_map<std::string, std::shared_ptr<BaseComponent>> Components;
 	float dt;
+	CVector Location;
+
+public:
+	VectorEvent OnLocationChanged;
 };
 

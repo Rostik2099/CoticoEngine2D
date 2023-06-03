@@ -17,14 +17,14 @@ void InputManager::UpdateInputs()
 	{
 		for (int i = 0; i < event->GetKeys().size(); i++)
 		{
-			if (sf::Keyboard::isKeyPressed(event->GetKeys()[i]))
+			if (sf::Keyboard::isKeyPressed(event->GetKeys()[i].key))
 			{
 				event->Press(i);
 			}
-			//if (sf::Keyboard::isKeyPressed(event->GetKey()))
-			//{
-			//	event->Release();
-			//}
+			if (!sf::Keyboard::isKeyPressed(event->GetKeys()[i].key) && event->GetKeys()[i].pressed)
+			{
+				event->Release(i);
+			}
 		}
 	}
 }
@@ -53,7 +53,7 @@ void InputManager::AddAxisEvent(AxisParams params)
 {
 	if (inputEvents.count(params.name) > 0)
 	{
-		inputEvents[params.name]->AddKey(params.key[0], params.scale[0]);
+		inputEvents[params.name]->AddKey(params.key[0].key, params.scale[0]);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ void InputManager::AddActionEvent(ActionParams params)
 {
 	if (inputEvents.count(params.name) > 0)
 	{
-		inputEvents[params.name]->AddKey(params.key[0], 0.f);
+		inputEvents[params.name]->AddKey(params.key[0].key, 0.f);
 	}
 	else
 	{
@@ -107,7 +107,7 @@ void InputManager::ReadLine(std::string line)
 		AxisParams parameters;
 
 		parameters.name = params["Name"];
-		parameters.key.push_back(mapping[params["Key"]]);
+		parameters.key.push_back({ mapping[params["Key"]], false });
 		parameters.scale.push_back(std::stof(params["Scale"]));
 
 		AddAxisEvent(parameters);
@@ -117,7 +117,7 @@ void InputManager::ReadLine(std::string line)
 		ActionParams parameters;
 
 		parameters.name = params["Name"];
-		parameters.key.push_back(mapping[params["Key"]]);
+		parameters.key.push_back({ mapping[params["Key"]], false });
 
 		AddActionEvent(parameters);
 	}

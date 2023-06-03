@@ -23,10 +23,12 @@ void TestActor::Tick(float dt)
 
 void TestActor::MoveForward(float scale)
 {
-	sprite->GetSprite().move(CVector(0.f, 200.f * scale).ToSFVector());
+	CVector NewLoc = GetActorLocation() + CVector(0.f, scale * Speed * GetDeltaTime());
+	SetActorLocation(NewLoc);
 }
 
 void TestActor::MoveRight(float scale)
 {
-	sprite->GetSprite().move(CVector(3.f * scale, 0.f).ToSFVector());
+	CVector NewLoc = GetActorLocation() + CVector(scale * Speed * GetDeltaTime(), 0.f);
+	SetActorLocation(NewLoc);
 }

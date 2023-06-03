@@ -29,7 +29,7 @@ public:
 
 	AxisCallback(T* object, void(T::* func)(float scale))
 	{
-		this->listener = Ref(object);
+		this->listener = Ref<T>(object);
 		this->function = func;
 	};
 

@@ -9,9 +9,17 @@ class Ref
 public:
 	Ref() {};
 	
-	Ref(T* Ref) 
+	Ref(CActor* Ref) 
 	{
-		std::shared_ptr<T> pointer = std::dynamic_pointer_cast<T>(EngineUtils::GetActorByID(Ref->GetUUID()));
+		std::shared_ptr<T> pointer;
+		pointer = std::dynamic_pointer_cast<T>(EngineUtils::GetActorByID(Ref->GetUUID()));
+		this->ptr = pointer;
+	};
+
+	Ref(BaseComponent* Ref)
+	{
+		std::shared_ptr<T> pointer;
+		pointer = std::dynamic_pointer_cast<T>(EngineUtils::GetComponentByID(Ref));
 		this->ptr = pointer;
 	};
 

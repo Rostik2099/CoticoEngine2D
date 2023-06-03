@@ -16,5 +16,6 @@ public:
 
 protected:
 	Ref<SpriteComponent> sprite;
+	float Speed = 200.f;
 };
 

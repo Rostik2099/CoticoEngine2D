@@ -38,6 +38,7 @@ private:
 	World* CurrentWorld;
 	Renderer* RenderManager;
 	InputManager* Input;
+	sf::Clock DeltaClock;
 
 	float previousTime;
 	float newTime;

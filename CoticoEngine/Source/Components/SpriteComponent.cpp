@@ -7,9 +7,7 @@ SpriteComponent::SpriteComponent()
 	Sprite.setColor(sf::Color::White);
 }
 
-SpriteComponent::~SpriteComponent()
-{
-}
+SpriteComponent::~SpriteComponent() {}
 
 void SpriteComponent::SetTexture(std::string path)
 {
@@ -20,4 +18,11 @@ void SpriteComponent::SetTexture(std::string path)
 void SpriteComponent::SetScale(CVector NewScale)
 {
 	Sprite.setScale(NewScale.ToSFVector());
+}
+
+void SpriteComponent::OnOwnerLocChanged(CVector NewLoc)
+{
+	CVector offset = NewLoc + ((GetWorldLocation() + GetLocalOffset()) * -1);
+	Sprite.move(offset.ToSFVector());
+	BaseComponent::OnOwnerLocChanged(NewLoc);
 }

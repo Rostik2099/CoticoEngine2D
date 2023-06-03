@@ -35,13 +35,7 @@ void CEngine::UpdateEvents()
 
 void CEngine::Update()
 {
-	sf::Clock deltaClock;
-	previousTime = newTime;
-	//newTime = deltaClock.restart().asSeconds();
-
-	float dt = (newTime - previousTime);
-
-	CurrentWorld->Tick(deltaClock.restart().asSeconds());
+	CurrentWorld->Tick(DeltaClock.restart().asSeconds());
 }
 
 void CEngine::CreateAppWindow(int width, int height, std::string title)

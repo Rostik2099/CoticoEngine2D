@@ -23,6 +23,29 @@ void CActor::Destroy()
     World::Get()->AddActorForDeletion(this);
 }
 
+void CActor::SetActorLocation(CVector NewLoc)
+{
+    Location = NewLoc;
+
+    OnLocationChanged.Broadcast(NewLoc);
+}
+
+std::shared_ptr<BaseComponent> CActor::GetComponentWithID(std::string id)
+{
+    return Components[id];
+}
+
+void CActor::SetCompsOwner()
+{
+    for (auto [id, comp] : Components)
+    {
+        if (comp)
+        {
+            comp->SetOwner(Ref<CActor>(this));
+        }
+    }
+}
+
 void CActor::InitComponent(std::shared_ptr<BaseComponent> Component, std::string ID)
 {
     Component->SetUUID(ID);

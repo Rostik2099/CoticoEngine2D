@@ -5,17 +5,23 @@
 #include"InputCallback.h"
 #include"KeyMapping.h"
 
+struct SKey 
+{
+	sf::Keyboard::Key key;
+	bool pressed = false;
+};
+
 struct AxisParams
 {
 	std::string name;
-	std::vector<sf::Keyboard::Key> key;
+	std::vector<SKey> key;
 	std::vector<float> scale;
 };
 
 struct ActionParams
 {
 	std::string name;
-	std::vector<sf::Keyboard::Key> key;
+	std::vector<SKey> key;
 };
 
 class InputEvent
@@ -24,9 +30,10 @@ public:
 	InputEvent() {};
 
 	virtual void Press(int keyIndex) { pressed = true; };
-	virtual void Release() { pressed = false; };
+	virtual void Release(int keyIndex) { pressed = false; };
 	virtual void AddKey(sf::Keyboard::Key newKey, float scale) {};
-	virtual std::vector<sf::Keyboard::Key> GetKeys() = 0;
+	virtual std::vector<SKey> GetKeys() = 0;
+	bool IsPressed() { return this->pressed; };
 protected:
 	bool pressed = false;
 };
@@ -37,11 +44,11 @@ public:
 	AxisEvent();
 
 	void Press(int keyIndex) override;
-	void Release() override;
+	void Release(int keyIndex) override;
 	void AddKey(sf::Keyboard::Key newKey, float scale) override;
-	std::vector<sf::Keyboard::Key> GetKeys() override;
+	std::vector<SKey> GetKeys() override;
 	void SetParams(AxisParams params) { this->params = params; };
-	AxisParams GetParams() { return this->params; };
+	AxisParams& GetParams() { return this->params; };
 
 	template<typename T>
 	void AddListener(T* listener, void(T::* funct)(float scale))
@@ -62,9 +69,9 @@ public:
 	ActionEvent();
 
 	void Press(int keyIndex) override;
-	void Release() override;
+	void Release(int keyIndex) override;
 	void AddKey(sf::Keyboard::Key newKey, float scale) override;
-	std::vector<sf::Keyboard::Key> GetKeys() override;
+	std::vector<SKey> GetKeys() override;
 	void SetParams(ActionParams params) { this->params = params; };
 
 	template<typename T>
@@ -82,7 +89,7 @@ public:
 		}
 	};
 
-	ActionParams GetParams() { return this->params; };
+	ActionParams& GetParams() { return this->params; };
 private:
 	std::vector<IActionCallback*> pressCallbacks;
 	std::vector<IActionCallback*> releaseCallbacks;
