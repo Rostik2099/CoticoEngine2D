@@ -11,6 +11,8 @@ void CEngine::Init()
 	RenderManager = Renderer::Get();
 	Input = InputManager::Get();
 	CurrentWorld = World::Get();
+
+	CurrentCamera = new sf::View(sf::FloatRect(0, 0, 1280, 720));
 }
 
 void CEngine::Render()

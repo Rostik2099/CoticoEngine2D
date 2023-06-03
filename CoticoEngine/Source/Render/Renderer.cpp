@@ -1,10 +1,12 @@
 #include "Renderer.h"
 #include <iostream>
+#include "Core/CEngine.h"
 #include "AppWindow/AppWindow.h"
 #include "Components/SpriteComponent.h"
 
 void Renderer::Render(sf::RenderWindow* CurrentWindow)
 {
+	CurrentWindow->setView(*CEngine::Get()->GetCurrentCamera());
 	CurrentWindow->clear(sf::Color::Black);
 	
 	for (auto [id, sprite] : SpriteComps)

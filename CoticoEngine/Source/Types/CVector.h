@@ -12,6 +12,12 @@ public:
 		this->Y = y;
 	};
 
+	CVector(float x)
+	{
+		this->X = x;
+		this->Y = x;
+	};
+
 	sf::Vector2f ToSFVector() 
 	{
 		return sf::Vector2f(X, Y);

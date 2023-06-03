@@ -4,10 +4,7 @@
 void BaseComponent::SetOwner(Ref<CActor> owner)
 {
 	this->Owner = owner;
-	Owner->OnLocationChanged.AddListener(this, &BaseComponent::OnOwnerLocChanged);
+	Owner->OnLocationChanged.AddListener(this, &BaseComponent::SetWorldLocation);
+	SetWorldLocation(Owner->GetActorLocation());
 }
 
-void BaseComponent::OnOwnerLocChanged(CVector NewLoc)
-{
-	WorldLocation = NewLoc + LocalOffset;
-}

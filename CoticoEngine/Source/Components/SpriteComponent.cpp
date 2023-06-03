@@ -20,9 +20,9 @@ void SpriteComponent::SetScale(CVector NewScale)
 	Sprite.setScale(NewScale.ToSFVector());
 }
 
-void SpriteComponent::OnOwnerLocChanged(CVector NewLoc)
+void SpriteComponent::SetWorldLocation(CVector NewLoc)
 {
 	CVector offset = NewLoc + ((GetWorldLocation() + GetLocalOffset()) * -1);
 	Sprite.move(offset.ToSFVector());
-	BaseComponent::OnOwnerLocChanged(NewLoc);
+	BaseComponent::SetWorldLocation(NewLoc);
 }

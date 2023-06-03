@@ -13,7 +13,7 @@ public:
 	void SetTexture(std::string path);
 	void SetScale(CVector NewScale);
 	sf::Sprite& GetSprite() { return this->Sprite; };
-	void OnOwnerLocChanged(CVector NewLoc) override;
+	void SetWorldLocation(CVector NewLoc) override;
 
 protected:
 	sf::Sprite Sprite;

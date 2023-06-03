@@ -2,6 +2,7 @@
 #include "Core/CActor.h"
 
 class SpriteComponent;
+class CameraComponent;
 
 class TestActor : public CActor
 {
@@ -16,6 +17,7 @@ public:
 
 protected:
 	Ref<SpriteComponent> sprite;
+	Ref<CameraComponent> camera;
 	float Speed = 200.f;
 };
 
