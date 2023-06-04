@@ -1,5 +1,5 @@
 #pragma once
-#include<unordered_map>
+#include<map>
 #include<memory>
 
 #include "SFML/Graphics.hpp"
@@ -23,7 +23,7 @@ private:
 	void RemoveSprites();
 	
 private:
-	std::unordered_map<std::string, Ref<SpriteComponent>> SpriteComps;
+	std::map<std::string, Ref<SpriteComponent>> SpriteComps;
 	std::vector<std::string> SpritesToRemove;
 };
 

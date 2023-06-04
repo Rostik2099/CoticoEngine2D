@@ -7,4 +7,3 @@ void BaseComponent::SetOwner(Ref<CActor> owner)
 	Owner->OnLocationChanged.AddListener(this, &BaseComponent::SetWorldLocation);
 	SetWorldLocation(Owner->GetActorLocation());
 }
-

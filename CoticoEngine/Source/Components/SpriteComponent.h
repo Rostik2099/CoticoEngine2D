@@ -14,9 +14,13 @@ public:
 	void SetScale(CVector NewScale);
 	sf::Sprite& GetSprite() { return this->Sprite; };
 	void SetWorldLocation(CVector NewLoc) override;
+	std::string GetLayer() { return this->Layer; };
+	void SetLayer(std::string NewLayer) { this->Layer = NewLayer; };
 
 protected:
 	sf::Sprite Sprite;
 	sf::Texture Texture;
+	std::string Layer = "0Default";
+	CVector ImageOffset;
 };
 

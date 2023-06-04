@@ -6,8 +6,8 @@
 TestActor::TestActor()
 {
 	sprite = SpawnComponent<SpriteComponent>();
+	sprite->SetLayer("1Player");
 	camera = SpawnComponent<CameraComponent>();
-	camera->SetLocalOffset(CVector(320.f, 200.f));
 
 	Ref<CActor> act = GetWorld()->SpawnActor<CActor>();
 	act->SetActorLocation(CVector(100.f, 200.f));

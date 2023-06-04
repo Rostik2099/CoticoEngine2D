@@ -28,7 +28,7 @@ void Renderer::Render(sf::RenderWindow* CurrentWindow)
 
 void Renderer::AddSprite(Ref<SpriteComponent> sprite)
 {
-	SpriteComps[sprite->GetUUID()] = sprite;
+	SpriteComps[sprite->GetLayer() + sprite->GetUUID()] = sprite;
 }
 
 void Renderer::RemoveSprites()
