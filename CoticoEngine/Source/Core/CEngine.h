@@ -19,6 +19,7 @@ public:
 		return &engine;
 	};
 
+	void Init();
 	void Render();
 	void UpdateEvents();
 	void Update();
@@ -28,14 +29,12 @@ public:
 	bool IsEngineRunning();
 	sf::View* GetCurrentCamera() { return this->CurrentCamera; };
 	void SetCamera(sf::View* NewCamera) { this->CurrentCamera = NewCamera; };
+	sf::Time GetDeltaClock() { return this->DeltaClock.restart(); };
 
 private:
-	CEngine() 
-	{
-		Init(); 
-	};
+	CEngine() {};
+	~CEngine();
 
-	void Init();
 private:
 	AppWindow* CurrentWindow;
 	World* CurrentWorld;

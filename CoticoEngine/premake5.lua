@@ -11,6 +11,7 @@ project "CoticoEngine"
 		"Source/**.h",
 		"Source/**.cpp",
 		"ThirdParty/include/UUID/*.h",
+		"ThirdParty/include/ImGUI/*"
 	}
 
 	includedirs 

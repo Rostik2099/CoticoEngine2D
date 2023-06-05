@@ -16,15 +16,15 @@ public:
 	std::string GetUUID() { return this->uuid; };
 	Ref<CActor> GetOwner() { return this->Owner; };
 	void SetOwner(Ref<CActor> owner);
-	CVector GetWorldLocation() { return this->WorldLocation; };
-	CVector GetLocalOffset() { return this->LocalOffset; };
-	virtual void SetWorldLocation(CVector NewLoc) { this->WorldLocation = NewLoc; };
-	void SetLocalOffset(CVector NewOffset) { this->LocalOffset = NewOffset; };
+	CVector GetWorldLocation();
+	CVector GetRelativeLocation() { return this->Offset; };
+	virtual void SetWorldLocation(CVector NewLoc);
+	virtual void SetRelativeLocation(CVector NewOffset) { this->Offset = NewOffset; };
+	void OnOwnerLocChanged(CVector NewLoc);
 
 private:
 	std::string uuid;
 	Ref<CActor> Owner;
-	CVector LocalOffset;
-	CVector WorldLocation;
+	CVector Offset;
 };
 

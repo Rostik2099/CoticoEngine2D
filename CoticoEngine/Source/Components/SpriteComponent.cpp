@@ -21,10 +21,17 @@ void SpriteComponent::SetTexture(std::string path)
 void SpriteComponent::SetScale(CVector NewScale)
 {
 	Sprite.setScale(NewScale.ToSFVector());
+	ImageOffset = ImageOffset * NewScale;
 }
 
 void SpriteComponent::SetWorldLocation(CVector NewLoc)
 {
-	Sprite.setPosition((NewLoc - CVector(ImageOffset.X * Sprite.getScale().x, ImageOffset.Y * Sprite.getScale().y)).ToSFVector());
+	Sprite.setPosition((NewLoc - ImageOffset).ToSFVector());
 	BaseComponent::SetWorldLocation(NewLoc);
+}
+
+void SpriteComponent::SetRelativeLocation(CVector NewOffset)
+{
+	Sprite.setPosition((GetOwner()->GetActorLocation() + NewOffset - ImageOffset).ToSFVector());
+	BaseComponent::SetRelativeLocation(NewOffset);
 }

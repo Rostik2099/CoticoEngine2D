@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include <iostream>
 #include "Core/CEngine.h"
+#include "EditorUI/EditorUIManager.h"
 #include "AppWindow/AppWindow.h"
 #include "Components/SpriteComponent.h"
 
@@ -20,6 +21,8 @@ void Renderer::Render(sf::RenderWindow* CurrentWindow)
 			SpritesToRemove.push_back(id);
 		}
 	}
+
+	EditorUIManager::Get()->Render();
 	
 	CurrentWindow->display();
 

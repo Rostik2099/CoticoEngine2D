@@ -14,6 +14,7 @@ public:
 	void SetScale(CVector NewScale);
 	sf::Sprite& GetSprite() { return this->Sprite; };
 	void SetWorldLocation(CVector NewLoc) override;
+	void SetRelativeLocation(CVector NewOffset) override;
 	std::string GetLayer() { return this->Layer; };
 	void SetLayer(std::string NewLayer) { this->Layer = NewLayer; };
 

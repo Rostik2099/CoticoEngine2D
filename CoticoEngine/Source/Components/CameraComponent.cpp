@@ -9,6 +9,7 @@ CameraComponent::CameraComponent()
 
 void CameraComponent::SetWorldLocation(CVector NewLoc)
 {
-	CameraView.setCenter((NewLoc + GetLocalOffset()).ToSFVector());
+	CameraView.setCenter((NewLoc).ToSFVector());
 	BaseComponent::SetWorldLocation(NewLoc);
 }
+
