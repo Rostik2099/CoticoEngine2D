@@ -16,7 +16,9 @@ project "CoticoEditor"
 	{
 		"%{wks.location}/CoticoEngine/Source",
 		"%{wks.location}/CoticoEngine/ThirdParty/include",
+		"%{wks.location}/CoticoEngine/ThirdParty/include/ImGUI",
 		"%{wks.location}/CoticoEditor/Source",
+		
 	}
 
 	libdirs

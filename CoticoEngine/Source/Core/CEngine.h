@@ -36,11 +36,11 @@ private:
 	~CEngine();
 
 private:
-	AppWindow* CurrentWindow;
-	World* CurrentWorld;
-	Renderer* RenderManager;
-	InputManager* Input;
-	sf::View* CurrentCamera;
+	AppWindow* CurrentWindow = nullptr;
+	World* CurrentWorld = nullptr;
+	Renderer* RenderManager = nullptr;
+	InputManager* Input = nullptr;
+	sf::View* CurrentCamera = nullptr;
 	sf::Clock DeltaClock;
 
 	float previousTime;

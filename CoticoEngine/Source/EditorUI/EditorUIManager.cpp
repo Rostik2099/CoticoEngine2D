@@ -1,4 +1,5 @@
 #include "EditorUIManager.h"
+#include "EditorLayer.h"
 #include "Core/CEngine.h"
 #include "AppWindow/AppWindow.h"
 
@@ -14,6 +15,11 @@ void EditorUIManager::Update()
 
 void EditorUIManager::Render()
 {
+	for (auto [id, layer] : Layers)
+	{
+		layer->Render();
+	}
+
 	ImGui::SFML::Render(*CurrentWindow->GetSFWindow());
 }
 
@@ -25,6 +31,11 @@ void EditorUIManager::ShutDown()
 EditorUIManager::~EditorUIManager()
 {
 	ShutDown();
+}
+
+void EditorUIManager::InitLayer(EditorLayer* layer, std::string id)
+{
+	layer->SetUUID(id);
 }
 
 EditorUIManager::EditorUIManager()

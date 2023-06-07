@@ -5,6 +5,7 @@
 
 class CActor;
 class BaseComponent;
+class EditorLayer;
 
 class EngineUtils
 {
@@ -18,4 +19,5 @@ public:
 
 	static std::shared_ptr<CActor> GetActorByID(std::string id);
 	static std::shared_ptr<BaseComponent> GetComponentByID(BaseComponent* comp);
+	static std::shared_ptr<EditorLayer> GetEditorLayerByID(EditorLayer* layer);
 };

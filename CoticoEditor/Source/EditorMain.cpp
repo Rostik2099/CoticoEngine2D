@@ -1,9 +1,7 @@
 #include "Core/CEngine.h"
 #include "Core/World.h"
-#include "Input/InputManager.h"
 #include "TestActor.h"
-#include "ImGUI/imgui.h"
-#include "ImGUI/imgui-SFML.h"
+#include "GUI/EditorGUI.h"
 
 int main()
 {
@@ -12,6 +10,8 @@ int main()
 	engine->Init();
 
 	World::Get()->SpawnActor<TestActor>();
+
+	EditorGUI GUI;
 
 	while (engine->IsEngineRunning())
 	{

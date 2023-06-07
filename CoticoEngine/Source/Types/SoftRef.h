@@ -23,6 +23,13 @@ public:
 		this->ptr = pointer;
 	};
 
+	Ref(EditorLayer* Ref)
+	{
+		std::shared_ptr<T> pointer;
+		pointer = std::dynamic_pointer_cast<T>(EngineUtils::GetEditorLayerByID(Ref));
+		this->ptr = pointer;
+	};
+
 	Ref(std::shared_ptr<T> ref) 
 	{
 		ptr = ref;

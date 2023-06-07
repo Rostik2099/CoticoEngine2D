@@ -9,13 +9,6 @@ TestActor::TestActor()
 	sprite->SetLayer("1Player");
 	camera = SpawnComponent<CameraComponent>();
 
-	Ref<CActor> act = GetWorld()->SpawnActor<CActor>();
-	act->SetActorLocation(CVector(100.f, 200.f));
-	Ref<SpriteComponent> comp = act->SpawnComponent<SpriteComponent>();
-	act->SetCompsOwner();
-	comp->SetTexture("Content/Sprites/unnamed.png");
-	comp->SetScale(CVector(0.25f));
-
 	sprite->SetTexture("Content/Sprites/julia.jpg");
 	sprite->SetScale(CVector(0.1f, 0.1f));
 }
