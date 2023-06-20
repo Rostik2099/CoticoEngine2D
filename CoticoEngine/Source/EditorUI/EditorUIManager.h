@@ -34,6 +34,7 @@ public:
 	void Update();
 	void Render();
 	void ShutDown();
+	void OnConstruct();
 
 	std::shared_ptr<EditorLayer> GetLayerWithID(std::string id) { return this->Layers[id]; };
 

@@ -29,6 +29,7 @@ void World::DeleteActors()
 {
 	for (auto actor : ActorsToDelete)
 	{
+		OnActorDeleted.Broadcast(actor);
 		Actors.erase(actor->GetUUID());
 	}
 	ActorsToDelete.clear();

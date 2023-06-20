@@ -40,6 +40,8 @@ public:
 		return Ref<T>(SpawnedComp);
 	};
 
+	std::unordered_map<std::string, std::shared_ptr<BaseComponent>> GetComponentsList() { return this->Components; };
+
 private:
 	void InitComponent(std::shared_ptr<BaseComponent> Component, std::string ID);
 

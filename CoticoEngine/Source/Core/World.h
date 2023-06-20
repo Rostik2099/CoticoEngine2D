@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include "Types/SoftRef.h"
+#include "Events/ActorEvent.h"
 
 #include"Utils/EngineUtils.h"
 
@@ -24,6 +25,7 @@ public:
 		std::string ActorID = EngineUtils::Generate();
 		Actors[ActorID] = NewActor;
 		InitSpawnedActor(NewActor.get(), ActorID);
+		OnActorSpawned.Broadcast(Ref<CActor>(NewActor));
 		return Ref<Type>(NewActor);
 	};
 
@@ -35,11 +37,14 @@ public:
 private:
 	void InitSpawnedActor(CActor* Actor, std::string ID);
 	void DeleteActors();
-
-private:
 	World() {};
 
+private:
 	std::unordered_map<std::string, std::shared_ptr<CActor>> Actors;
 	std::vector<CActor*> ActorsToDelete;
+
+public:
+	ActorEvent OnActorSpawned;
+	ActorEvent OnActorDeleted;
 };
 

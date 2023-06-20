@@ -11,7 +11,8 @@ int main()
 
 	World::Get()->SpawnActor<TestActor>();
 
-	EditorGUI GUI;
+	EditorGUI::Get();
+	EditorUIManager::Get()->OnConstruct();
 
 	while (engine->IsEngineRunning())
 	{

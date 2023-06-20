@@ -28,6 +28,14 @@ void EditorUIManager::ShutDown()
 	ImGui::SFML::Shutdown();
 }
 
+void EditorUIManager::OnConstruct()
+{
+	for (auto [id, layer] : Layers)
+	{
+		layer->Construct();
+	}
+}
+
 EditorUIManager::~EditorUIManager()
 {
 	ShutDown();
