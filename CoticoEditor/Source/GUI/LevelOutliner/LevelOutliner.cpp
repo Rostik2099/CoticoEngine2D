@@ -2,6 +2,7 @@
 #include "TestActor.h"
 #include "Core/World.h"
 #include "Actors/SpriteActor.h"
+#include "Actors/CollisionActor.h"
 #include "OutlinerObject.h"
 
 LevelOutliner::LevelOutliner() {}
@@ -16,10 +17,15 @@ void LevelOutliner::Render()
 	}
 
 	ImGui::SameLine();
-
 	if (ImGui::Button("Spawn Player"))
 	{
 		World::Get()->SpawnActor<TestActor>();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Add Collision"))
+	{
+		World::Get()->SpawnActor<CollisionActor>();
 	}
 
 	RenderChildren();

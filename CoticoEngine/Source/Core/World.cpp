@@ -1,6 +1,7 @@
 #include "World.h"
 
 #include "CActor.h"
+#include "Components/CollisionBoxComponent.h"
 
 void World::Tick(float DeltaTime)
 {
@@ -9,12 +10,29 @@ void World::Tick(float DeltaTime)
 		actor->Tick(DeltaTime);
 	}
 
+	for (auto [id, collision] : Collisions)
+	{
+		for (auto [id2, collision2] : Collisions)
+		{
+			if (id != id2 && collision->GetCollisionBox().getGlobalBounds().intersects(collision2->GetCollisionBox().getGlobalBounds()))
+			{
+				collision->OnCollide.Broadcast(collision2);
+				collision2->OnCollide.Broadcast(collision);
+			}
+		}
+	}
+
 	DeleteActors();
 }
 
 void World::AddActorForDeletion(CActor* ActorToDelte)
 {
 	ActorsToDelete.push_back(ActorToDelte);
+}
+
+void World::AddCollision(std::shared_ptr<CollisionBoxComponent> Collision)
+{
+	Collisions[Collision->GetUUID()] = Collision;
 }
 
 void World::InitSpawnedActor(CActor* Actor, std::string ID)
@@ -33,4 +51,9 @@ void World::DeleteActors()
 		Actors.erase(actor->GetUUID());
 	}
 	ActorsToDelete.clear();
+}
+
+void World::ClearWorld()
+{
+	Actors.clear();
 }

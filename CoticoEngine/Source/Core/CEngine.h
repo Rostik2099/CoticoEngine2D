@@ -27,8 +27,9 @@ public:
 	AppWindow* GetCurrentWindow() { return this->CurrentWindow; };
 	void CreateAppWindow(int width, int height, std::string title);
 	bool IsEngineRunning();
-	sf::View* GetCurrentCamera() { return this->CurrentCamera; };
-	void SetCamera(sf::View* NewCamera) { this->CurrentCamera = NewCamera; };
+	CameraComponent* GetCurrentCamera() { return this->CurrentCamera; };
+	void SetCamera(CameraComponent* NewCamera) { this->CurrentCamera = NewCamera; };
+	void OnCurrentCameraDeleted(CameraComponent* Camera);
 	sf::Time GetDeltaClock() { return this->DeltaClock.restart(); };
 
 private:
@@ -40,7 +41,8 @@ private:
 	World* CurrentWorld = nullptr;
 	Renderer* RenderManager = nullptr;
 	InputManager* Input = nullptr;
-	sf::View* CurrentCamera = nullptr;
+	CameraComponent* CurrentCamera = nullptr;
+	CameraComponent* DefaultCamera;
 	sf::Clock DeltaClock;
 
 	float previousTime;

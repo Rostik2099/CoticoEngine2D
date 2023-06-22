@@ -19,7 +19,7 @@ void EditorGUI::DeselectActor()
 EditorGUI::EditorGUI()
 {
 	EditorUIManager::Get()->AddLayer<DockSpace>();
+	EditorUIManager::Get()->AddLayer<Viewport>();
 	EditorUIManager::Get()->AddLayer<LevelOutliner>();
 	EditorUIManager::Get()->AddLayer<Properties>();
-	EditorUIManager::Get()->AddLayer<Viewport>();
 }

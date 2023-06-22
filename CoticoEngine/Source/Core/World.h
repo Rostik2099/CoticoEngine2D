@@ -8,6 +8,7 @@
 #include"Utils/EngineUtils.h"
 
 class CActor;
+class CollisionBoxComponent;
 
 class World
 {
@@ -32,15 +33,20 @@ public:
 	void Tick(float DeltaTime);
 
 	void AddActorForDeletion(CActor* ActorToDelte);
+	void AddCollision(std::shared_ptr<CollisionBoxComponent> Collision);
+	void RemoveCollision(std::string id) { Collisions.erase(id); };
 	std::shared_ptr<CActor> FindActorWithID(std::string id) { return Actors[id]; };
 
 private:
 	void InitSpawnedActor(CActor* Actor, std::string ID);
 	void DeleteActors();
 	World() {};
+	~World() { ClearWorld(); };
+	void ClearWorld();
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<CActor>> Actors;
+	std::unordered_map<std::string, std::shared_ptr<CollisionBoxComponent>> Collisions;
 	std::vector<CActor*> ActorsToDelete;
 
 public:

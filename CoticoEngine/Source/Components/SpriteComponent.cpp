@@ -6,6 +6,7 @@
 SpriteComponent::SpriteComponent() 
 {
 	Sprite = sf::Sprite(Texture, sf::IntRect(0, 0, 64, 64));
+	ImageOffset = CVector(64, 64);
 	Sprite.setColor(sf::Color::White);
 }
 
@@ -19,6 +20,8 @@ void SpriteComponent::SetTexture(std::string path)
 
 	ImageOffset = CVector(Sprite.getGlobalBounds().width / 2, Sprite.getGlobalBounds().height / 2);
 	TexturePath = path;
+	SetRelativeLocation(GetRelativeLocation());
+
 	std::strcpy(buffer, TexturePath.c_str());
 }
 
@@ -36,7 +39,9 @@ void SpriteComponent::SetWorldLocation(CVector NewLoc)
 
 void SpriteComponent::SetRelativeLocation(CVector NewOffset)
 {
-	Sprite.setPosition((GetOwner()->GetActorLocation() + NewOffset - ImageOffset).ToSFVector());
+	if (GetOwner())
+		Sprite.setPosition((GetOwner()->GetActorLocation() + NewOffset - ImageOffset).ToSFVector());
+
 	BaseComponent::SetRelativeLocation(NewOffset);
 }
 

@@ -2,6 +2,7 @@
 #include "Components/BaseComponent.h"
 #include "Render/Renderer.h"
 #include "Components/SpriteComponent.h"
+#include "Components/CollisionBoxComponent.h"
 #include "Core/World.h"
 
 CActor::CActor() {}
@@ -42,6 +43,7 @@ void CActor::SetCompsOwner()
         if (comp)
         {
             comp->SetOwner(Ref<CActor>(this));
+            comp->SetRelativeLocation(comp->GetRelativeLocation());
         }
     }
 }
@@ -54,6 +56,10 @@ void CActor::InitComponent(std::shared_ptr<BaseComponent> Component, std::string
     if (dynamic_cast<SpriteComponent*>(Component.get()))
     {
         Renderer::Get()->AddSprite(Ref<SpriteComponent>(std::dynamic_pointer_cast<SpriteComponent>(Component)));
+    }
+    if (dynamic_cast<CollisionBoxComponent*>(Component.get()))
+    {
+        Renderer::Get()->AddCollisionBox(Ref<CollisionBoxComponent>(std::dynamic_pointer_cast<CollisionBoxComponent>(Component)));
     }
 }
 

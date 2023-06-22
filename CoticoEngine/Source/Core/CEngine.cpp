@@ -6,6 +6,7 @@
 #include "Components/SpriteComponent.h"
 #include "AppWindow/AppWindow.h"
 #include "EditorUI/EditorUIManager.h"
+#include "Components/CameraComponent.h"
 
 void CEngine::Init()
 {
@@ -14,7 +15,8 @@ void CEngine::Init()
 	CurrentWorld = World::Get();
 	EditorUIManager::Get();
 
-	CurrentCamera = new sf::View(sf::FloatRect(0, 0, 1280, 720));
+	DefaultCamera = new CameraComponent;
+	CurrentCamera = DefaultCamera;
 }
 
 void CEngine::Render()
@@ -51,6 +53,14 @@ void CEngine::CreateAppWindow(int width, int height, std::string title)
 bool CEngine::IsEngineRunning()
 {
 	return CurrentWindow->GetSFWindow()->isOpen();
+}
+
+void CEngine::OnCurrentCameraDeleted(CameraComponent* Camera)
+{
+	if (Camera == CurrentCamera)
+	{
+		CurrentCamera = DefaultCamera;
+	}
 }
 
 CEngine::~CEngine()

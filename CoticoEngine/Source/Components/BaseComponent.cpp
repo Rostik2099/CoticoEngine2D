@@ -5,7 +5,6 @@ void BaseComponent::SetOwner(Ref<CActor> owner)
 {
 	this->Owner = owner;
 	Owner->OnLocationChanged.AddListener(this, &BaseComponent::OnOwnerLocChanged);
-	SetWorldLocation(Owner->GetActorLocation());
 }
 
 CVector BaseComponent::GetWorldLocation()
