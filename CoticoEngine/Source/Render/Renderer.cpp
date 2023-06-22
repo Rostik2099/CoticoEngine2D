@@ -7,20 +7,23 @@
 
 void Renderer::Render(sf::RenderWindow* CurrentWindow)
 {
-	CurrentWindow->setView(*CEngine::Get()->GetCurrentCamera());
 	CurrentWindow->clear(sf::Color::Black);
+	RenderBuffer.setView(*CEngine::Get()->GetCurrentCamera());
+	RenderBuffer.clear();
 	
 	for (auto [id, sprite] : SpriteComps)
 	{
 		if (sprite)
 		{
-			CurrentWindow->draw(sprite->GetSprite());
+			RenderBuffer.draw(sprite->GetSprite());
 		}
 		else 
 		{
 			SpritesToRemove.push_back(id);
 		}
 	}
+
+	RenderBuffer.display();
 
 	EditorUIManager::Get()->Render();
 	
@@ -34,6 +37,20 @@ void Renderer::AddSprite(Ref<SpriteComponent> sprite)
 	SpriteComps[sprite->GetLayer() + sprite->GetUUID()] = sprite;
 }
 
+void Renderer::OnResize(int NewWidth, int NewHeight)
+{
+	this->WindowWidth = NewWidth;
+	this->WindowHeight = NewHeight;
+
+	GenerateRenderBuffer();
+	CEngine::Get()->GetCurrentCamera()->reset(sf::FloatRect(0, 0, WindowWidth, WindowHeight));
+}
+
+Renderer::Renderer()
+{
+	GenerateRenderBuffer();
+}
+
 void Renderer::RemoveSprites()
 {
 	for (auto sprite : SpritesToRemove)
@@ -41,4 +58,9 @@ void Renderer::RemoveSprites()
 		SpriteComps.erase(sprite);
 	}
 	SpritesToRemove.clear();
+}
+
+void Renderer::GenerateRenderBuffer()
+{
+	RenderBuffer.create(WindowWidth, WindowHeight);
 }

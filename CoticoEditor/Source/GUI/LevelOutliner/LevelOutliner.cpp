@@ -1,6 +1,7 @@
 #include "LevelOutliner.h"
 #include "TestActor.h"
 #include "Core/World.h"
+#include "Actors/SpriteActor.h"
 #include "OutlinerObject.h"
 
 LevelOutliner::LevelOutliner() {}
@@ -9,7 +10,14 @@ void LevelOutliner::Render()
 {
 	ImGui::Begin("Level Outliner");
 
-	if (ImGui::Button("Add Actor"))
+	if (ImGui::Button("Add Sprite"))
+	{
+		World::Get()->SpawnActor<SpriteActor>();
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Spawn Player"))
 	{
 		World::Get()->SpawnActor<TestActor>();
 	}

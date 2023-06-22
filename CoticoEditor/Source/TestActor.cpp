@@ -9,7 +9,7 @@ TestActor::TestActor()
 	sprite->SetLayer("1Player");
 	camera = SpawnComponent<CameraComponent>();
 
-	sprite->SetTexture("Content/Sprites/julia.jpg");
+	sprite->SetTexture("Sprites/julia.jpg");
 	sprite->SetScale(CVector(0.1f, 0.1f));
 }
 

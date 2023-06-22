@@ -9,10 +9,10 @@ int main()
 	engine->CreateAppWindow(1280, 720, "Cotico Engine 2D");
 	engine->Init();
 
-	World::Get()->SpawnActor<TestActor>();
-
 	EditorGUI::Get();
 	EditorUIManager::Get()->OnConstruct();
+
+	World::Get()->SpawnActor<TestActor>();
 
 	while (engine->IsEngineRunning())
 	{

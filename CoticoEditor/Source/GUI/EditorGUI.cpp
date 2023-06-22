@@ -1,6 +1,8 @@
 #include "EditorGUI.h"
 #include "LevelOutliner/LevelOutliner.h"
 #include "Properties/Properties.h"
+#include "Viewport/Viewport.h"
+#include "Viewport/DockSpace.h"
 
 void EditorGUI::SetSelectedActor(Ref<CActor> actor)
 {
@@ -16,6 +18,8 @@ void EditorGUI::DeselectActor()
 
 EditorGUI::EditorGUI()
 {
+	EditorUIManager::Get()->AddLayer<DockSpace>();
 	EditorUIManager::Get()->AddLayer<LevelOutliner>();
 	EditorUIManager::Get()->AddLayer<Properties>();
+	EditorUIManager::Get()->AddLayer<Viewport>();
 }

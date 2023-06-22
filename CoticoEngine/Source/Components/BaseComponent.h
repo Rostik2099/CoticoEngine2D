@@ -1,5 +1,7 @@
 #pragma once
 #include<string>
+#include"imgui.h"
+#include"imgui-SFML.h"
 #include"Types/CVector.h"
 #include"Types/SoftRef.h"
 
@@ -11,6 +13,7 @@ public:
 
 	virtual void BeginPlay() {};
 	virtual void Tick(float DeltaTime) {};
+	virtual void ShowComponentProperties() {};
 
 	void SetUUID(std::string id) { this->uuid = id; };
 	std::string GetUUID() { return this->uuid; };

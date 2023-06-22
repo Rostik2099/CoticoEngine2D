@@ -15,6 +15,7 @@ public:
 	sf::Sprite& GetSprite() { return this->Sprite; };
 	void SetWorldLocation(CVector NewLoc) override;
 	void SetRelativeLocation(CVector NewOffset) override;
+	void ShowComponentProperties() override;
 	std::string GetLayer() { return this->Layer; };
 	void SetLayer(std::string NewLayer) { this->Layer = NewLayer; };
 
@@ -23,5 +24,9 @@ protected:
 	sf::Texture Texture;
 	std::string Layer = "0Default";
 	CVector ImageOffset;
+
+	//GUI
+	char buffer[1024] = {};
+	std::string TexturePath;
 };
 

@@ -43,6 +43,7 @@ public:
 private:
 	EditorUIManager();
 	void InitLayer(EditorLayer* layer, std::string id);
+	void SetCustomColors();
 
 private:
 	AppWindow* CurrentWindow;
