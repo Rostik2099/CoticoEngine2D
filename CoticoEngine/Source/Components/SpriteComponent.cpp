@@ -6,7 +6,8 @@
 SpriteComponent::SpriteComponent() 
 {
 	Sprite = sf::Sprite(Texture, sf::IntRect(0, 0, 64, 64));
-	ImageOffset = CVector(64, 64);
+	ImageOffset = CVector(32, 32);
+	Sprite.setOrigin(ImageOffset.ToSFVector());
 	Sprite.setColor(sf::Color::White);
 }
 
@@ -19,6 +20,7 @@ void SpriteComponent::SetTexture(std::string path)
 	Sprite.setTexture(Texture, true);
 
 	ImageOffset = CVector(Sprite.getGlobalBounds().width / 2, Sprite.getGlobalBounds().height / 2);
+	Sprite.setOrigin(ImageOffset.ToSFVector());
 	TexturePath = path;
 	SetRelativeLocation(GetRelativeLocation());
 
@@ -33,14 +35,14 @@ void SpriteComponent::SetScale(CVector NewScale)
 
 void SpriteComponent::SetWorldLocation(CVector NewLoc)
 {
-	Sprite.setPosition((NewLoc - ImageOffset).ToSFVector());
+	Sprite.setPosition((NewLoc).ToSFVector());
 	BaseComponent::SetWorldLocation(NewLoc);
 }
 
 void SpriteComponent::SetRelativeLocation(CVector NewOffset)
 {
 	if (GetOwner())
-		Sprite.setPosition((GetOwner()->GetActorLocation() + NewOffset - ImageOffset).ToSFVector());
+		Sprite.setPosition((GetOwner()->GetActorLocation() + NewOffset).ToSFVector());
 
 	BaseComponent::SetRelativeLocation(NewOffset);
 }
@@ -63,4 +65,11 @@ void SpriteComponent::ShowComponentProperties()
 			std::strcpy(buffer, TexturePath.c_str());
 		}
 	}
+}
+
+void SpriteComponent::SetRotation(float NewAngle)
+{
+	RotationAngle = NewAngle;
+	Sprite.setRotation(RotationAngle);
+	SetRelativeLocation(GetRelativeLocation());
 }

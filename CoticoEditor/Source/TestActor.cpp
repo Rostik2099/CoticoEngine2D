@@ -15,6 +15,7 @@ TestActor::TestActor()
 
 	collision = SpawnComponent<CollisionBoxComponent>();
 	collision->SetCollisionBounds(CVector(142.f, 190.f));
+	collision->SetCollisionState(Dynamic);
 }
 
 void TestActor::SetupInputs(InputManager* inputManager)
@@ -32,7 +33,6 @@ void TestActor::Tick(float dt)
 {
 	CActor::Tick(dt);
 
-	std::cout << 1.f / dt << std::endl;
 }
 
 void TestActor::MoveForward(float scale)
@@ -49,5 +49,26 @@ void TestActor::MoveRight(float scale)
 
 void TestActor::OnCollided(Ref<CollisionBoxComponent> Collider)
 {
-	std::cout << Collider->GetUUID() << std::endl;
+	CVector BoxOffset = Collider->GetCollisionBoxBounds() / 2.f;
+	CVector PlayerOffset = collision->GetCollisionBoxBounds() / 2.f;
+	CVector DistanceOrig = GetActorLocation() - Collider->GetWorldLocation();
+	CVector Distance = DistanceOrig;
+	if (Distance.X < 0) Distance.X *= -1;
+	if (Distance.Y < 0) Distance.Y *= -1;
+
+	if (BoxOffset.X + PlayerOffset.X > Distance.X)
+	{
+		float scale = 1;
+		if (DistanceOrig.X < 0) scale = -1;
+
+		MoveRight(scale);
+	}
+
+	if (BoxOffset.Y + PlayerOffset.Y > Distance.Y)
+	{
+		float scale = 1;
+		if (DistanceOrig.Y < 0) scale = -1;
+
+		MoveForward(scale);
+	}
 }

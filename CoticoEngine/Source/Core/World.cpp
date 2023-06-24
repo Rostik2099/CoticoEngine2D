@@ -5,21 +5,21 @@
 
 void World::Tick(float DeltaTime)
 {
-	for (auto [id, actor] : Actors)
-	{
-		actor->Tick(DeltaTime);
-	}
-
 	for (auto [id, collision] : Collisions)
 	{
 		for (auto [id2, collision2] : Collisions)
 		{
-			if (id != id2 && collision->GetCollisionBox().getGlobalBounds().intersects(collision2->GetCollisionBox().getGlobalBounds()))
+			if (id != id2 && collision.lock()->GetCollisionBox().getGlobalBounds().intersects(collision2.lock()->GetCollisionBox().getGlobalBounds()))
 			{
-				collision->OnCollide.Broadcast(collision2);
-				collision2->OnCollide.Broadcast(collision);
+				collision.lock()->OnCollide.Broadcast(collision2.lock());
+				collision2.lock()->OnCollide.Broadcast(collision.lock());
 			}
 		}
+	}
+
+	for (auto [id, actor] : Actors)
+	{
+		actor->Tick(DeltaTime);
 	}
 
 	DeleteActors();

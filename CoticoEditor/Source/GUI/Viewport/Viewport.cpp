@@ -11,8 +11,8 @@ void Viewport::Construct()
 
 void Viewport::Render()
 {
-
-	ImGui::Begin("Viewport");
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+	ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar);
 	ImVec2 CurrentSize = ImGui::GetWindowSize();
 	if (CurrentSize.x != WindowWidth || CurrentSize.y != WindowHeight)
 	{
@@ -22,6 +22,7 @@ void Viewport::Render()
 		Renderer::Get()->OnResize(WindowWidth, WindowHeight);
 	}
 
-	ImGui::Image(*Renderer::Get()->GetRenderBuffer(), sf::Vector2f(WindowWidth, WindowHeight));
+	ImGui::Image(*Renderer::Get()->GetRenderBuffer(), ImGui::GetWindowSize());
 	ImGui::End();
+	ImGui::PopStyleVar();
 }

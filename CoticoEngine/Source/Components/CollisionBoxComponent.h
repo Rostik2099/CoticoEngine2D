@@ -2,6 +2,12 @@
 #include "BaseComponent.h"
 #include "Events/CollisionEvent.h"
 
+enum ECollisionState 
+{
+	Static,
+	Dynamic,
+};
+
 class CollisionBoxComponent : public BaseComponent
 {
 public:
@@ -11,6 +17,9 @@ public:
 
 	sf::RectangleShape GetCollisionBox() { return this->Collision; };
 	bool GetCollisionVisibility() { return this->ShowCollision; };
+	CVector GetCollisionBoxBounds() { return this->CollisionBounds; };
+	ECollisionState GetCollisionState() { return this->State; };
+	void SetCollisionState(ECollisionState NewState) { this->State = NewState; };
 	void SetCollisionBounds(CVector NewBounds);
 	void SetCollisionVisibility(bool NewVisibility) { this->ShowCollision = NewVisibility; };
 
@@ -23,6 +32,10 @@ private:
 	CVector CollisionBounds;
 	CVector BoxOffset;
 	bool ShowCollision = true;
+	ECollisionState State;
+
+	//GUI
+	int selectedState = 0;
 
 public:
 	CollisionEvent OnCollide;

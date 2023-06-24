@@ -20,18 +20,19 @@ void CollisionBoxComponent::SetCollisionBounds(CVector NewBounds)
 	CollisionBounds = NewBounds;
 	Collision.setSize(CollisionBounds.ToSFVector());
 	BoxOffset = CVector(CollisionBounds.X / 2, CollisionBounds.Y / 2);
+	Collision.setOrigin(BoxOffset.ToSFVector());
 }
 
 void CollisionBoxComponent::SetWorldLocation(CVector NewLoc)
 {
-	Collision.setPosition((NewLoc - BoxOffset).ToSFVector());
+	Collision.setPosition((NewLoc).ToSFVector());
 	BaseComponent::SetWorldLocation(NewLoc);
 }
 
 void CollisionBoxComponent::SetRelativeLocation(CVector NewOffset)
 {
 	if (GetOwner())
-		Collision.setPosition((GetOwner()->GetActorLocation() + NewOffset - BoxOffset).ToSFVector());
+		Collision.setPosition((GetOwner()->GetActorLocation() + NewOffset).ToSFVector());
 
 	BaseComponent::SetRelativeLocation(NewOffset);
 }
@@ -47,4 +48,14 @@ void CollisionBoxComponent::ShowComponentProperties()
 	}
 
 	ImGui::Checkbox("Show Collision", &ShowCollision);
+	
+	const char* items[] = {"Static", "Dynamic"};
+	if (ImGui::Combo("Collision State", &selectedState, items, IM_ARRAYSIZE(items)))
+	{
+		if (selectedState == 0)
+		{
+			SetCollisionState(Static);
+		}
+		else SetCollisionState(Dynamic);
+	}
 }

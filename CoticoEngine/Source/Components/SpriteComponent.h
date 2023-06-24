@@ -18,12 +18,14 @@ public:
 	void ShowComponentProperties() override;
 	std::string GetLayer() { return this->Layer; };
 	void SetLayer(std::string NewLayer) { this->Layer = NewLayer; };
+	void SetRotation(float NewAngle);
 
 protected:
 	sf::Sprite Sprite;
 	sf::Texture Texture;
 	std::string Layer = "0Default";
 	CVector ImageOffset;
+	float RotationAngle;
 
 	//GUI
 	char buffer[1024] = {};

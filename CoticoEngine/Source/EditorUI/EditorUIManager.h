@@ -4,7 +4,7 @@
 #include "imgui-SFML.h"
 #include "Utils/EngineUtils.h"
 #include "Types/SoftRef.h"
-#include <unordered_map>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -24,10 +24,20 @@ public:
 	Ref<T> AddLayer() 
 	{
 		std::shared_ptr<T> NewLayer = std::make_shared<T>();
-		std::string LayerID = EngineUtils::Generate();
+		std::string LayerID = typeid(NewLayer.get()).name() + EngineUtils::Generate();
 		Layers[LayerID] = NewLayer;
 		InitLayer(NewLayer.get(), LayerID);
 		return Ref<T>(NewLayer.get());
+	};
+
+	template<typename T>
+	Ref<T> CreateDockSpace()
+	{
+		std::shared_ptr<T> DockSpace = std::make_shared<T>();
+		std::string DockSpaceID = "0" + EngineUtils::Generate();
+		Layers[DockSpaceID] = DockSpace;
+		InitLayer(DockSpace.get(), DockSpaceID);
+		return Ref<T>(DockSpace.get());
 	};
 
 	void ProcessEvents(sf::Event event);
@@ -47,6 +57,6 @@ private:
 
 private:
 	AppWindow* CurrentWindow;
-	std::unordered_map<std::string, std::shared_ptr<EditorLayer>> Layers;
+	std::map<std::string, std::shared_ptr<EditorLayer>> Layers;
 };
 

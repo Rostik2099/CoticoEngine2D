@@ -46,7 +46,7 @@ private:
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<CActor>> Actors;
-	std::unordered_map<std::string, std::shared_ptr<CollisionBoxComponent>> Collisions;
+	std::unordered_map<std::string, std::weak_ptr<CollisionBoxComponent>> Collisions;
 	std::vector<CActor*> ActorsToDelete;
 
 public:

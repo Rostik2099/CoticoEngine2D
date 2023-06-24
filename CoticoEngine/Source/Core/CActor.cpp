@@ -7,7 +7,10 @@
 
 CActor::CActor() {}
 
-CActor::~CActor() {}
+CActor::~CActor() 
+{
+    Components.clear();
+}
 
 void CActor::Tick(float DeltaTime)
 {
@@ -59,7 +62,9 @@ void CActor::InitComponent(std::shared_ptr<BaseComponent> Component, std::string
     }
     if (dynamic_cast<CollisionBoxComponent*>(Component.get()))
     {
-        Renderer::Get()->AddCollisionBox(Ref<CollisionBoxComponent>(std::dynamic_pointer_cast<CollisionBoxComponent>(Component)));
+        std::shared_ptr<CollisionBoxComponent> CollisionBox = std::dynamic_pointer_cast<CollisionBoxComponent>(Component);
+        Renderer::Get()->AddCollisionBox(Ref<CollisionBoxComponent>(CollisionBox));
+        World::Get()->AddCollision(CollisionBox);
     }
 }
 
