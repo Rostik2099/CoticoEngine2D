@@ -17,12 +17,19 @@ public:
 	void MoveForward(float scale);
 	void MoveRight(float scale);
 
-	void OnCollided(Ref<CollisionBoxComponent> Collider);
+	void CheckCollision();
+	void RotateToMouse();
 
 protected:
 	Ref<SpriteComponent> sprite;
 	Ref<CameraComponent> camera;
 	Ref<CollisionBoxComponent> collision;
+
+	//Movement
 	float Speed = 200.f;
+	int UpDir = 0;
+	int RightDir = 0;
+	CVector LastLocation;
 };
+
 

@@ -18,6 +18,18 @@ public:
 		this->Y = x;
 	};
 
+	CVector(sf::Vector2f vec)
+	{
+		this->X = vec.x;
+		this->Y = vec.y;
+	};
+
+	CVector(sf::Vector2i vec)
+	{
+		this->X = vec.x;
+		this->Y = vec.y;
+	};
+
 	sf::Vector2f ToSFVector() 
 	{
 		return sf::Vector2f(X, Y);

@@ -23,6 +23,22 @@ void CollisionBoxComponent::SetCollisionBounds(CVector NewBounds)
 	Collision.setOrigin(BoxOffset.ToSFVector());
 }
 
+
+
+void CollisionBoxComponent::AddOverlapping(Ref<CollisionBoxComponent> Component)
+{
+	OverlappingComponents.push_back(Component);
+	OnCollide.Broadcast(Component);
+}
+
+void CollisionBoxComponent::RemoveOverlapping(Ref<CollisionBoxComponent> Component)
+{
+	OnCollisionEnd.Broadcast(Component);
+	auto iterator = std::find(OverlappingComponents.begin(), OverlappingComponents.end(), Component);
+	if (iterator != OverlappingComponents.end())
+		OverlappingComponents.erase(iterator);
+}
+
 void CollisionBoxComponent::SetWorldLocation(CVector NewLoc)
 {
 	Collision.setPosition((NewLoc).ToSFVector());

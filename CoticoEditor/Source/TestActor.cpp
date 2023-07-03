@@ -1,5 +1,9 @@
 #include "TestActor.h"
 #include "Core/World.h"
+#include "AppWindow/AppWindow.h"
+#include "Core/CEngine.h"
+#include "Utils/CoticoMath.h"
+#include "Render/Renderer.h"
 #include "Components/SpriteComponent.h"
 #include "Components/CameraComponent.h"
 #include "Components/CollisionBoxComponent.h"
@@ -26,49 +30,82 @@ void TestActor::SetupInputs(InputManager* inputManager)
 
 void TestActor::BeginPlay()
 {
-	collision->OnCollide.AddListener(this, &TestActor::OnCollided);
 }
 
 void TestActor::Tick(float dt)
 {
 	CActor::Tick(dt);
 
+	//RotateToMouse();
 }
 
 void TestActor::MoveForward(float scale)
 {
+	UpDir = scale;
+	LastLocation = GetActorLocation();
 	CVector NewLoc = GetActorLocation() + CVector(0.f, scale * Speed * GetDeltaTime());
 	SetActorLocation(NewLoc);
+	CheckCollision();
+	UpDir = 0;
 }
 
 void TestActor::MoveRight(float scale)
 {
+	RightDir = scale;
+	LastLocation = GetActorLocation();
 	CVector NewLoc = GetActorLocation() + CVector(scale * Speed * GetDeltaTime(), 0.f);
 	SetActorLocation(NewLoc);
+	CheckCollision();
+	RightDir = 0;
 }
 
-void TestActor::OnCollided(Ref<CollisionBoxComponent> Collider)
+void TestActor::CheckCollision()
 {
-	CVector BoxOffset = Collider->GetCollisionBoxBounds() / 2.f;
-	CVector PlayerOffset = collision->GetCollisionBoxBounds() / 2.f;
-	CVector DistanceOrig = GetActorLocation() - Collider->GetWorldLocation();
-	CVector Distance = DistanceOrig;
-	if (Distance.X < 0) Distance.X *= -1;
-	if (Distance.Y < 0) Distance.Y *= -1;
-
-	if (BoxOffset.X + PlayerOffset.X > Distance.X)
+	for (auto Overllaping : collision->GetOverlappingComponents())
 	{
-		float scale = 1;
-		if (DistanceOrig.X < 0) scale = -1;
+		CVector MinDistance = collision->GetCollisionBoxBounds() / 2.f + Overllaping->GetCollisionBoxBounds() / 2.f;
+		CVector CurrentDistance = GetActorLocation() - Overllaping->GetWorldLocation();
 
-		MoveRight(scale);
+		//Player Up and Down
+		if (CurrentDistance.X > -MinDistance.X && 
+			CurrentDistance.X < MinDistance.X)
+		{
+			//Up
+			if (CurrentDistance.Y < 0 && CurrentDistance.Y * -1 < MinDistance.Y && UpDir == 1)
+			{
+				SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
+			}
+			//Down
+			if (CurrentDistance.Y > 0 && CurrentDistance.Y < MinDistance.Y && UpDir == -1)
+			{
+				SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
+			}
+		}
+		//Player Left and Right
+		if (CurrentDistance.Y > -MinDistance.Y &&
+			CurrentDistance.Y < MinDistance.Y)
+		{
+			//Left
+			if (CurrentDistance.X < 0 && CurrentDistance.X * -1 < MinDistance.X && RightDir == 1)
+			{
+				SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
+			}
+			//Right
+			if (CurrentDistance.X > 0 && CurrentDistance.X < MinDistance.X && RightDir == -1)
+			{
+				SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
+			}
+		}
 	}
+}
 
-	if (BoxOffset.Y + PlayerOffset.Y > Distance.Y)
-	{
-		float scale = 1;
-		if (DistanceOrig.Y < 0) scale = -1;
+void TestActor::RotateToMouse()
+{
+	int windowWidth, windowHeight;
+	Renderer::Get()->GetWindowSize(windowWidth, windowHeight);
+	sf::Vector2i MousePixelCoord = sf::Mouse::getPosition(*CEngine::Get()->GetCurrentWindow()->GetSFWindow());
+	CVector MouseWorldPos = CVector(MousePixelCoord.x, MousePixelCoord.y) - (CVector(windowWidth, windowHeight) / 2.f);
 
-		MoveForward(scale);
-	}
+	std::cout << MouseWorldPos.X << " " << MouseWorldPos.Y << std::endl;
+	//float angle = CoticoMath::FindLookAt(CVector(MouseWorldCoord) - GetActorLocation());
 }

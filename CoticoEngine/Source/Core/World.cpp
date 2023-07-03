@@ -1,5 +1,5 @@
 #include "World.h"
-
+#include<vector>
 #include "CActor.h"
 #include "Components/CollisionBoxComponent.h"
 
@@ -11,8 +11,19 @@ void World::Tick(float DeltaTime)
 		{
 			if (id != id2 && collision.lock()->GetCollisionBox().getGlobalBounds().intersects(collision2.lock()->GetCollisionBox().getGlobalBounds()))
 			{
-				collision.lock()->OnCollide.Broadcast(collision2.lock());
-				collision2.lock()->OnCollide.Broadcast(collision.lock());
+				if (std::find(collision.lock()->GetOverlappingComponents().begin(), collision.lock()->GetOverlappingComponents().end(), Ref<CollisionBoxComponent>(collision2.lock())) == collision.lock()->GetOverlappingComponents().end())
+				{
+					collision.lock()->AddOverlapping(Ref<CollisionBoxComponent>(collision2.lock()));
+					collision2.lock()->AddOverlapping(Ref<CollisionBoxComponent>(collision.lock()));
+				}
+			}
+			else 
+			{
+				if (id != id2 && std::find(collision.lock()->GetOverlappingComponents().begin(), collision.lock()->GetOverlappingComponents().end(), Ref<CollisionBoxComponent>(collision2.lock())) != collision.lock()->GetOverlappingComponents().end())
+				{
+					collision.lock()->RemoveOverlapping(Ref<CollisionBoxComponent>(collision2.lock()));
+					collision2.lock()->RemoveOverlapping(Ref<CollisionBoxComponent>(collision.lock()));
+				}
 			}
 		}
 	}
