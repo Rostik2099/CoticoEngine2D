@@ -16,6 +16,11 @@ CollisionBoxComponent::~CollisionBoxComponent()
 
 void CollisionBoxComponent::DestroyComponent()
 {
+	for (auto overlapping : OverlappingComponents)
+	{
+		overlapping->RemoveOverlapping(Ref<CollisionBoxComponent>(this));
+	}
+
 	World::Get()->RemoveCollision(Ref<CollisionBoxComponent>(this));
 }
 
