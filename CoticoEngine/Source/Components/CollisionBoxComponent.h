@@ -1,6 +1,13 @@
 #pragma once
+#include<unordered_map>
 #include "BaseComponent.h"
 #include "Events/CollisionEvent.h"
+
+enum ECollisionType
+{
+	Block,
+	Trigger,
+};
 
 enum ECollisionState 
 {
@@ -14,15 +21,19 @@ public:
 	CollisionBoxComponent();
 
 	~CollisionBoxComponent();
+	void DestroyComponent() override;
 
 	sf::RectangleShape GetCollisionBox() { return this->Collision; };
 	bool GetCollisionVisibility() { return this->ShowCollision; };
 	CVector GetCollisionBoxBounds() { return this->CollisionBounds; };
 	ECollisionState GetCollisionState() { return this->State; };
-	void SetCollisionState(ECollisionState NewState) { this->State = NewState; };
+	ECollisionType GetCollisionType() { return this->Type; };
+	void SetCollisionState(ECollisionState NewState);
 	void SetCollisionBounds(CVector NewBounds);
 	void SetCollisionVisibility(bool NewVisibility) { this->ShowCollision = NewVisibility; };
-	std::vector<Ref<CollisionBoxComponent>> GetOverlappingComponents() { return this->OverlappingComponents; };
+	void SetCollisionType(ECollisionType NewType) { this->Type = NewType; };
+	std::vector<CollisionBoxComponent*> GetOverlappingComponents() { return this->OverlappingComponents; };
+	std::unordered_map<std::string, int> GetOverlappingIndices() { return this->OverlappingIndices; };
 	void AddOverlapping(Ref<CollisionBoxComponent> Component);
 	void RemoveOverlapping(Ref<CollisionBoxComponent> Component);
 
@@ -35,11 +46,14 @@ private:
 	CVector CollisionBounds;
 	CVector BoxOffset;
 	bool ShowCollision = true;
-	ECollisionState State;
-	std::vector<Ref<CollisionBoxComponent>> OverlappingComponents;
+	ECollisionState State = Static;
+	ECollisionType Type = Block;
+	std::vector<CollisionBoxComponent*> OverlappingComponents;
+	std::unordered_map<std::string, int> OverlappingIndices;
 
 	//GUI
 	int selectedState = 0;
+	int selectedType = 0;
 
 public:
 	CollisionEvent OnCollide;

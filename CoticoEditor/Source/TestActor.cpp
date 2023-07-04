@@ -63,37 +63,40 @@ void TestActor::CheckCollision()
 {
 	for (auto Overllaping : collision->GetOverlappingComponents())
 	{
-		CVector MinDistance = collision->GetCollisionBoxBounds() / 2.f + Overllaping->GetCollisionBoxBounds() / 2.f;
-		CVector CurrentDistance = GetActorLocation() - Overllaping->GetWorldLocation();
+		if (Overllaping->GetCollisionType() == Block)
+		{
+			CVector MinDistance = collision->GetCollisionBoxBounds() / 2.f + Overllaping->GetCollisionBoxBounds() / 2.f;
+			CVector CurrentDistance = GetActorLocation() - Overllaping->GetWorldLocation();
 
-		//Player Up and Down
-		if (CurrentDistance.X > -MinDistance.X && 
-			CurrentDistance.X < MinDistance.X)
-		{
-			//Up
-			if (CurrentDistance.Y < 0 && CurrentDistance.Y * -1 < MinDistance.Y && UpDir == 1)
+			//Player Up and Down
+			if (CurrentDistance.X > -MinDistance.X &&
+				CurrentDistance.X < MinDistance.X)
 			{
-				SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
+				//Up
+				if (CurrentDistance.Y < 0 && CurrentDistance.Y * -1 < MinDistance.Y && UpDir == 1)
+				{
+					SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
+				}
+				//Down
+				if (CurrentDistance.Y > 0 && CurrentDistance.Y < MinDistance.Y && UpDir == -1)
+				{
+					SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
+				}
 			}
-			//Down
-			if (CurrentDistance.Y > 0 && CurrentDistance.Y < MinDistance.Y && UpDir == -1)
+			//Player Left and Right
+			if (CurrentDistance.Y > -MinDistance.Y &&
+				CurrentDistance.Y < MinDistance.Y)
 			{
-				SetActorLocation(CVector(GetActorLocation().X, LastLocation.Y));
-			}
-		}
-		//Player Left and Right
-		if (CurrentDistance.Y > -MinDistance.Y &&
-			CurrentDistance.Y < MinDistance.Y)
-		{
-			//Left
-			if (CurrentDistance.X < 0 && CurrentDistance.X * -1 < MinDistance.X && RightDir == 1)
-			{
-				SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
-			}
-			//Right
-			if (CurrentDistance.X > 0 && CurrentDistance.X < MinDistance.X && RightDir == -1)
-			{
-				SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
+				//Left
+				if (CurrentDistance.X < 0 && CurrentDistance.X * -1 < MinDistance.X && RightDir == 1)
+				{
+					SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
+				}
+				//Right
+				if (CurrentDistance.X > 0 && CurrentDistance.X < MinDistance.X && RightDir == -1)
+				{
+					SetActorLocation(CVector(LastLocation.X, GetActorLocation().Y));
+				}
 			}
 		}
 	}

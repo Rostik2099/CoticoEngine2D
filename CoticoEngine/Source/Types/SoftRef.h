@@ -43,6 +43,18 @@ public:
 		else return false;
 	};
 
+	bool operator== (const Ref<T>& left)
+	{
+		if (left.ptr.lock().get() == this->ptr.lock().get()) return true;
+		else return false;
+	};
+
+	bool operator!= (const Ref<T>& left)
+	{
+		if (left.ptr.lock().get() != this->ptr.lock().get()) return true;
+		else return false;
+	};
+
 	std::weak_ptr<T> Get() { return this->ptr; };
 	T* GetRaw() { return this->ptr.lock().get(); };
 

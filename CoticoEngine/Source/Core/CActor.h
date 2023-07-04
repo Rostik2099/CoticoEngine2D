@@ -20,6 +20,7 @@ public:
 	virtual void BeginPlay() {};
 	virtual void Tick(float DeltaTime);
 	virtual void SetupInputs(InputManager* inputManager) {};
+	void DestroyComponents();
 
 	std::string GetUUID() { return this->uuid; };
 	void SetUUID(std::string id) { this->uuid = id; };

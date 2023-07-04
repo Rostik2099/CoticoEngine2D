@@ -22,6 +22,14 @@ void CActor::Tick(float DeltaTime)
     this->dt = DeltaTime;
 }
 
+void CActor::DestroyComponents()
+{
+    for (auto [id, Comp] : Components)
+    {
+        Comp->DestroyComponent();
+    }
+}
+
 void CActor::Destroy()
 {
     World::Get()->AddActorForDeletion(this);
@@ -54,6 +62,7 @@ void CActor::SetCompsOwner()
 void CActor::InitComponent(std::shared_ptr<BaseComponent> Component, std::string ID)
 {
     Component->SetUUID(ID);
+    Component->SetSelfPtr(Component);
     Component->BeginPlay();
 
     if (dynamic_cast<SpriteComponent*>(Component.get()))

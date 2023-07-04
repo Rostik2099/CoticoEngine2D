@@ -12,7 +12,19 @@ CollisionBoxComponent::CollisionBoxComponent()
 
 CollisionBoxComponent::~CollisionBoxComponent()
 {
-	World::Get()->RemoveCollision(GetUUID());
+}
+
+void CollisionBoxComponent::DestroyComponent()
+{
+	World::Get()->RemoveCollision(Ref<CollisionBoxComponent>(this));
+}
+
+void CollisionBoxComponent::SetCollisionState(ECollisionState NewState)
+{
+	this->State = NewState;
+	selectedState = NewState;
+	World::Get()->ChangeCollisionState(Ref<CollisionBoxComponent>(
+		std::dynamic_pointer_cast<CollisionBoxComponent>(GetSelfPtr().lock())));
 }
 
 void CollisionBoxComponent::SetCollisionBounds(CVector NewBounds)
@@ -27,16 +39,16 @@ void CollisionBoxComponent::SetCollisionBounds(CVector NewBounds)
 
 void CollisionBoxComponent::AddOverlapping(Ref<CollisionBoxComponent> Component)
 {
-	OverlappingComponents.push_back(Component);
+	OverlappingComponents.push_back(Component.GetRaw());
+	OverlappingIndices[Component->GetUUID()] = 1;
 	OnCollide.Broadcast(Component);
 }
 
 void CollisionBoxComponent::RemoveOverlapping(Ref<CollisionBoxComponent> Component)
 {
 	OnCollisionEnd.Broadcast(Component);
-	auto iterator = std::find(OverlappingComponents.begin(), OverlappingComponents.end(), Component);
-	if (iterator != OverlappingComponents.end())
-		OverlappingComponents.erase(iterator);
+	OverlappingComponents.erase(remove(OverlappingComponents.begin(), OverlappingComponents.end(), Component.GetRaw()));
+	OverlappingIndices.erase(Component->GetUUID());
 }
 
 void CollisionBoxComponent::SetWorldLocation(CVector NewLoc)
@@ -73,5 +85,15 @@ void CollisionBoxComponent::ShowComponentProperties()
 			SetCollisionState(Static);
 		}
 		else SetCollisionState(Dynamic);
+	}
+
+	const char* types[] = { "Block", "Trigger" };
+	if (ImGui::Combo("Collision Type", &selectedType, types, IM_ARRAYSIZE(types)))
+	{
+		if (selectedType == 0)
+		{
+			SetCollisionType(Block);
+		}
+		else SetCollisionType(Trigger);
 	}
 }

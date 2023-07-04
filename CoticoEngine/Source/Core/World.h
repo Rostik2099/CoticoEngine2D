@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <iostream>
+#include <vector>
 #include <memory>
 #include "Types/SoftRef.h"
 #include "Events/ActorEvent.h"
@@ -34,7 +35,8 @@ public:
 
 	void AddActorForDeletion(CActor* ActorToDelte);
 	void AddCollision(std::shared_ptr<CollisionBoxComponent> Collision);
-	void RemoveCollision(std::string id) { Collisions.erase(id); };
+	void RemoveCollision(Ref<CollisionBoxComponent> Collision);
+	void ChangeCollisionState(Ref<CollisionBoxComponent> Component);
 	std::shared_ptr<CActor> FindActorWithID(std::string id) { return Actors[id]; };
 
 private:
@@ -46,7 +48,8 @@ private:
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<CActor>> Actors;
-	std::unordered_map<std::string, std::weak_ptr<CollisionBoxComponent>> Collisions;
+	std::vector<Ref<CollisionBoxComponent>> StaticColliders;
+	std::vector<Ref<CollisionBoxComponent>> DynamicColliders;
 	std::vector<CActor*> ActorsToDelete;
 
 public:
